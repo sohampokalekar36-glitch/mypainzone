@@ -1126,13 +1126,13 @@ function ProductDetailPage({ product, setPage, addToCart }) {
           <BackArrow /> Back to Products
         </button>
 
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'64px',alignItems:'start'}}>
+        <div className="product-detail-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'64px',alignItems:'start'}}>
           {/* Images */}
           <div>
             <div style={{
               borderRadius:'24px',height:'440px',marginBottom:'16px',
               boxShadow:'0 16px 48px rgba(0,0,0,0.1)',overflow:'hidden',background:'#f8f8f8'
-            }}>
+            }} className="product-detail-image">
               <ProductImage src={product.image} alt={product.name} style={{width:'100%',height:'100%',display:'block'}} fit="contain" />
             </div>
           </div>
@@ -1211,7 +1211,12 @@ function ProductDetailPage({ product, setPage, addToCart }) {
         </div>
       </div>
 
-      <style>{`@media(max-width:768px){.product-detail-grid{grid-template-columns:1fr!important}}`}</style>
+      <style>{`
+        @media(max-width:768px){
+          .product-detail-grid{grid-template-columns:1fr!important;gap:24px!important}
+          .product-detail-image{height:320px!important}
+        }
+      `}</style>
     </div>
   );
 }

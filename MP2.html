@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Pain Zone — Transform Your Pain Into Power</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.umd.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --orange: #FFA726;
+      --orange-dark: #F57C00;
+      --orange-light: #FFE0B2;
+      --black: #0A0A0A;
+      --white: #FFFFFF;
+      --gray: #F5F5F5;
+      --text-muted: #6B6B6B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    .font-display { font-family: 'Bebas Neue', cursive; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #fff; }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+    /* Noise texture overlay */
+    .noise::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    /* Hero diagonal clip */
+    .hero-clip {
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    }
+
+    /* Orange accent line */
+    .accent-line::before {
+      content: '';
+      display: block;
+      width: 56px;
+      height: 4px;
+      background: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    /* Product card hover */
+    .product-card {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(255, 167, 38, 0.2);
+    }
+
+    /* Service card */
+    .service-card {
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    .service-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-4px);
+    }
+
+    /* Btn hover */
+    .btn-primary {
+      background: var(--orange);
+      color: #000;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+    }
+    .btn-primary:hover::after {
+      width: 300px; height: 300px;
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      box-shadow: 0 8px 24px rgba(255,167,38,0.4);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--orange);
+      color: var(--orange);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--orange);
+      color: #000;
+    }
+
+    .hero-shop-btn {
+      border-color: #f6c87d;
+      color: #ffe1b0;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .hero-shop-btn:hover,
+    .hero-shop-btn:focus,
+    .hero-shop-btn:active {
+      background: #fff !important;
+      color: #0a0a0a !important;
+      border-color: #fff !important;
+      outline: none;
+    }
+
+    /* Navbar link underline animation */
+    .nav-link {
+      position: relative;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--orange);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .nav-link:hover, .nav-link.active { color: var(--orange); }
+
+    /* Testimonial card */
+    .testimonial-card {
+      background: var(--gray);
+      border-left: 4px solid var(--orange);
+      transition: all 0.3s;
+    }
+    .testimonial-card:hover { background: var(--orange-light); }
+
+    /* Input focus */
+    input:focus, textarea:focus {
+      outline: 2px solid var(--orange);
+      outline-offset: 2px;
+    }
+
+    /* Image placeholder gradients */
+    .img-hero { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); }
+    .img-product-1 { background: linear-gradient(135deg, #fff8f0 0%, #ffe0b2 100%); }
+    .img-product-2 { background: linear-gradient(135deg, #f0fff4 0%, #c8e6c9 100%); }
+    .img-product-3 { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%); }
+    .img-product-4 { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); }
+    .img-product-5 { background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); }
+    .img-product-6 { background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%); }
+
+    /* Tag badge */
+    .badge {
+      background: var(--orange);
+      color: #000;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Section heading */
+    .section-heading {
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    /* Stats counter */
+    .stat-card {
+      border-top: 3px solid var(--orange);
+    }
+
+    /* Team card */
+    .team-card:hover .team-overlay {
+      opacity: 1;
+    }
+    .team-overlay {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* Marquee */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track {
+      animation: marquee 18s linear infinite;
+      display: flex;
+      white-space: nowrap;
+    }
+
+    /* Page transitions */
+    .page-enter {
+      animation: fadeSlideIn 0.4s ease forwards;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Float animation for hero elements */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+    .float-anim { animation: float 4s ease-in-out infinite; }
+
+    /* Pulse orange */
+    @keyframes pulse-orange {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,167,38,0.4); }
+      50% { box-shadow: 0 0 0 16px rgba(255,167,38,0); }
+    }
+    .pulse-orange { animation: pulse-orange 2.5s ease-in-out infinite; }
+
+    /* Diagonal stripe bg */
+    .stripe-bg {
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 10px,
+        rgba(255,167,38,0.04) 10px, rgba(255,167,38,0.04) 20px
+      );
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .product-grid-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .product-grid-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .product-image-wrap {
+      height: 260px;
+      overflow: hidden;
+      background: #f8f8f8;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-description {
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 4.5em;
+    }
+
+    .product-cta {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .product-cta:hover {
+      background: var(--orange-dark);
+    }
+
+    @media (min-width: 768px) {
+      .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+const { motion, AnimatePresence } = window.Motion || window.FramerMotion || {};
+
+/* ===================== MOCK DATA ===================== */
+const PRODUCTS = [
+  { id: 1, name: "Moringa Powder", image: "/products/moringa.png", price: 549, originalPrice: 699, category: "Superfood", tag: "Best Seller", weight: "250g", rating: 4.8, reviews: 328,
+    description: "Rich in antioxidants and essential nutrients. Supports immunity, energy levels, and overall wellness with 100% natural ingredients.",
+    benefits: ["Rich in antioxidants", "Supports immunity", "Boosts natural energy", "Daily wellness support", "100% natural ingredients"] },
+  { id: 2, name: "Chocolate Whey Protein", image: "/products/whey.png", price: 1899, originalPrice: 2299, category: "Protein", tag: "Performance", weight: "1kg", rating: 4.9, reviews: 412,
+    description: "High-quality protein for muscle recovery and growth. Smooth chocolate flavor with fast absorption and zero added chemicals.",
+    benefits: ["Supports muscle recovery", "Promotes lean growth", "Fast absorption", "Smooth chocolate flavor", "No added chemicals"] },
+  { id: 3, name: "Creatine Monohydrate", image: "/products/creatine.png", price: 999, originalPrice: 1299, category: "Strength", tag: "Pure", weight: "300g", rating: 4.7, reviews: 265,
+    description: "Enhances strength, endurance, and performance. Pure micronized creatine for maximum effectiveness.",
+    benefits: ["Improves strength", "Enhances endurance", "Supports performance", "Micronized for absorption", "Pure and effective"] },
+  { id: 4, name: "Ashwagandha Powder", image: "/products/ashwagandha.png", price: 499, originalPrice: 649, category: "Ayurvedic", tag: "Stress Support", weight: "250g", rating: 4.8, reviews: 301,
+    description: "Reduces stress and boosts stamina naturally. Traditional Ayurvedic herb for mental and physical balance.",
+    benefits: ["Helps reduce stress", "Boosts stamina", "Supports focus", "Improves resilience", "Traditional Ayurvedic herb"] },
+  { id: 5, name: "Turmeric Curcumin", image: "/products/turmeric.png", price: 599, originalPrice: 749, category: "Immunity", tag: "Anti-Inflammatory", weight: "250g", rating: 4.7, reviews: 244,
+    description: "Powerful anti-inflammatory and immunity booster. Made from high-quality natural turmeric extract.",
+    benefits: ["Supports joint health", "Powerful antioxidant", "Boosts immunity", "Natural anti-inflammatory", "High-quality extract"] },
+  { id: 6, name: "Plant Protein", image: "/products/plant-protein.png", price: 1699, originalPrice: 2099, category: "Vegan", tag: "Dairy Free", weight: "1kg", rating: 4.6, reviews: 219,
+    description: "Clean, vegan protein source for daily nutrition. Supports digestion and muscle health without dairy.",
+    benefits: ["Clean vegan protein", "Easy digestion", "Supports muscle health", "Dairy free", "Ideal for daily nutrition"] },
+];
+
+const SERVICES = [
+  { id: 1, title: "Personal Training", icon: "🏋️", color: "#FFF3E0",
+    short: "1-on-1 & group sessions designed to break your limits.",
+    description: "Our certified trainers design science-backed, periodized programs tailored to your body type, goals, and lifestyle. Whether you're a beginner or an athlete, we push you to your edge — and beyond.",
+    features: ["Body composition analysis", "Customized workout programming", "Weekly progress tracking", "Nutrition sync support", "Online + in-person options"],
+    price: "Starting ₹2,999/month" },
+  { id: 2, title: "Customized Diet Plans", icon: "🥗", color: "#F1F8E9",
+    short: "Precision nutrition engineered to your body's chemistry.",
+    description: "Forget generic diets. Our expert nutritionists analyze your health markers, lifestyle, and goals to craft a plan that actually works — merging modern nutrition science with Ayurvedic food wisdom.",
+    features: ["Full health assessment", "Macro & micro nutrient planning", "Ayurvedic food pairing", "Weekly plan revisions", "Supplement guidance"],
+    price: "Starting ₹1,499/month" },
+  { id: 3, title: "Ayurvedic Consultancy", icon: "🌿", color: "#E8F5E9",
+    short: "5000-year-old healing wisdom, personalized for you.",
+    description: "Our Ayurvedic practitioners assess your Prakriti (body constitution) and design a holistic healing protocol using herbs, diet, lifestyle modifications, and Panchakarma recommendations.",
+    features: ["Prakriti (dosha) analysis", "Personalized herb prescriptions", "Detox & cleanse protocols", "Lifestyle & routine planning", "Follow-up consultations"],
+    price: "Starting ₹999/session" },
+];
+
+const TESTIMONIALS = [
+  { name: "Riya Sharma", role: "Lost 14kg in 4 months", text: "My Pain Zone completely transformed how I see fitness. The combination of training + Ayurveda fixed my gut issues I had for years. Best investment of my life.", city: "Pune", rating: 5 },
+  { name: "Vikram Nair", role: "Competitive Powerlifter", text: "The personalized training program here is next level. My squat went from 100kg to 160kg in 6 months. The Ashwagandha supplement is a game-changer too.", city: "Mumbai", rating: 5 },
+  { name: "Priya Joshi", role: "PCOS Management", text: "As someone managing PCOS, I was skeptical. But the Ayurvedic consultation + Shatavari supplement combination regulated my hormones naturally. Eternally grateful.", city: "Nagpur", rating: 5 },
+  { name: "Arjun Patil", role: "Lost 22kg", text: "6 months ago I weighed 102kg and had back pain. Today I'm at 80kg and deadlifting 120kg. The diet plan is what made the difference. Pure discipline.", city: "Sangli", rating: 5 },
+];
+
+const NAV_LINKS = ["Home", "Products", "Services", "About", "Contact"];
+
+const REQUIRED_PRODUCT_FILENAMES = [
+  "moringa.png",
+  "whey.png",
+  "creatine.png",
+  "ashwagandha.png",
+  "turmeric.png",
+  "plant-protein.png",
+];
+
+const FALLBACK_PRODUCT_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23f5f5f5'/><stop offset='100%' stop-color='%23ffe0b2'/></linearGradient></defs><rect width='800' height='800' fill='url(%23g)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%236b6b6b' font-family='Arial, sans-serif' font-size='36' font-weight='700'>Image Unavailable</text></svg>";
+
+const normalizeProductImagePath = (path) => {
+  if (!path) return FALLBACK_PRODUCT_IMAGE;
+  if (path.startsWith('/products/')) return path;
+  if (path.startsWith('./products/')) return path;
+  if (path.startsWith('../products/')) return path;
+  if (path.startsWith('products/')) return `./${path}`;
+  if (path.startsWith('/public/products/')) return path;
+  if (path.startsWith('./public/products/')) return path;
+  if (path.startsWith('../public/products/')) return path;
+  return path;
+};
+
+const getProductImageCandidates = (path) => {
+  const normalized = normalizeProductImagePath(path);
+  const filename = (normalized.split('/').pop() || '').trim();
+
+  if (!filename) {
+    return [FALLBACK_PRODUCT_IMAGE];
+  }
+
+  return [
+    `/products/${filename}`,
+    `./products/${filename}`,
+    `products/${filename}`,
+    `/public/products/${filename}`,
+    `./public/products/${filename}`,
+  ];
+};
+
+const validateProductImagePath = (path, productName) => {
+  const normalized = normalizeProductImagePath(path);
+  const filename = normalized.split('/').pop() || '';
+
+  if (!normalized.startsWith('/products/')) {
+    console.warn(`[Products] ${productName}: image path should start with /products/. Received: ${path}`);
+  }
+
+  if (filename && filename !== filename.toLowerCase()) {
+    console.warn(`[Products] ${productName}: filename should be lowercase for case-sensitive environments. Received: ${filename}`);
+  }
+
+  if (filename && !REQUIRED_PRODUCT_FILENAMES.includes(filename.toLowerCase())) {
+    console.warn(`[Products] ${productName}: filename not in expected list. Received: ${filename}`);
+  }
+
+  console.info(`[Products] ${productName}: loading from ${normalized}`);
+  return normalized;
+};
+
+/* ===================== ICONS ===================== */
+const MenuIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+);
+const CloseIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+);
+const StarIcon = ({ filled }) => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#FFA726" : "none"} stroke="#FFA726" strokeWidth="2">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </svg>
+);
+const CartIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+  </svg>
+);
+const ArrowRight = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+  </svg>
+);
+const CheckIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFA726" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+);
+const PhoneIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.13 6.13l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+  </svg>
+);
+const MailIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+  </svg>
+);
+const MapPin = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+  </svg>
+);
+const BackArrow = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+  </svg>
+);
+
+/* ===================== STAR RATING ===================== */
+const Stars = ({ rating }) => (
+  <div style={{display:'flex',gap:'2px'}}>
+    {[1,2,3,4,5].map(i => <StarIcon key={i} filled={i <= Math.round(rating)} />)}
+  </div>
+);
+
+function ProductImage({ src, alt, className, style, fit = 'cover' }) {
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const candidates = getProductImageCandidates(src);
+  const resolvedSrc = candidates[Math.min(candidateIndex, candidates.length - 1)] || FALLBACK_PRODUCT_IMAGE;
+
+  useEffect(() => {
+    setCandidateIndex(0);
+  }, [src]);
+
+  return (
+    <img
+      src={resolvedSrc}
+      alt={alt}
+      className={className}
+      style={{ ...style, objectFit: fit }}
+      loading="lazy"
+      onError={(e) => {
+        const nextIndex = candidateIndex + 1;
+
+        if (nextIndex < candidates.length) {
+          console.warn(`[Products] failed: ${resolvedSrc}. Retrying with ${candidates[nextIndex]}`);
+          setCandidateIndex(nextIndex);
+          return;
+        }
+
+        console.error(`[Products] failed to load all candidates for ${alt}. Falling back to placeholder.`);
+        e.currentTarget.onerror = null;
+        e.currentTarget.src = FALLBACK_PRODUCT_IMAGE;
+      }}
+    />
+  );
+}
+
+function ProductCard({ product, onView }) {
+  return (
+    <div className="product-grid-card">
+      <div className="product-image-wrap">
+        <ProductImage src={product.image} alt={product.name} className="product-image" fit="contain" />
+      </div>
+      <div style={{padding:'20px'}}>
+        <div style={{fontSize:'0.7rem',color:'#6B6B6B',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'6px'}}>
+          {product.category}
+        </div>
+        <h3 style={{fontWeight:'800',fontSize:'1.06rem',marginBottom:'10px',lineHeight:'1.35',color:'#0A0A0A'}}>{product.name}</h3>
+        <p className="product-description">{product.description}</p>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'18px',gap:'10px'}}>
+          <div>
+            <span style={{fontWeight:'900',fontSize:'1.1rem',color:'#0A0A0A'}}>₹{product.price}</span>
+          </div>
+          <button onClick={onView} className="product-cta">View Product</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== NAVBAR ===================== */
+function Navbar({ page, setPage, cartCount }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const navigate = (p) => { setPage(p); setMenuOpen(false); window.scrollTo(0,0); };
+
+  return (
+    <>
+      <nav style={{
+        position:'fixed', top:0, left:0, right:0, zIndex:1000,
+        background: scrolled ? 'rgba(255,255,255,0.97)' : 'rgba(255,255,255,0.98)',
+        backdropFilter: 'blur(12px)',
+        borderBottom: scrolled ? '1px solid #f0f0f0' : 'none',
+        transition: 'all 0.3s ease',
+        boxShadow: scrolled ? '0 2px 24px rgba(0,0,0,0.08)' : 'none',
+      }}>
+        <div style={{maxWidth:'1280px', margin:'0 auto', padding:'0 24px', display:'flex', alignItems:'center', justifyContent:'space-between', height:'70px'}}>
+          {/* Logo */}
+          <button onClick={() => navigate('Home')} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
+            <img src="logo.png" alt="My Pain Zone Logo" className="brand-logo" style={{height:'58px',width:'auto',display:'block'}} />
+          </button>
+
+          {/* Desktop Nav */}
+          <div style={{display:'flex',alignItems:'center',gap:'32px'}} className="desktop-nav">
+            {NAV_LINKS.map(link => (
+              <button key={link} onClick={() => navigate(link)}
+                style={{background:'none',border:'none',cursor:'pointer',color:'#0A0A0A',padding:'4px 0'}}
+                className={`nav-link ${page === link ? 'active' : ''}`}>
+                {link}
+              </button>
+            ))}
+            <button onClick={() => navigate('Cart')} style={{
+              background:'none',border:'none',cursor:'pointer',
+              position:'relative',color:'#0A0A0A',display:'flex',alignItems:'center'
+            }}>
+              <CartIcon />
+              {cartCount > 0 && (
+                <span style={{
+                  position:'absolute',top:'-8px',right:'-8px',
+                  background:'#FFA726',color:'#000',
+                  fontSize:'0.65rem',fontWeight:'800',
+                  width:'18px',height:'18px',borderRadius:'50%',
+                  display:'flex',alignItems:'center',justifyContent:'center'
+                }}>{cartCount}</span>
+              )}
+            </button>
+            <button className="btn-primary" onClick={() => navigate('Contact')}
+              style={{padding:'10px 22px',borderRadius:'8px',border:'none',cursor:'pointer',fontSize:'0.78rem'}}>
+              Book Free Call
+            </button>
+          </div>
+
+          {/* Mobile menu button */}
+          <button onClick={() => setMenuOpen(!menuOpen)} style={{
+            background:'none',border:'none',cursor:'pointer',display:'none',color:'#0A0A0A'
+          }} className="mobile-btn">
+            {menuOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div style={{
+          position:'fixed',top:'70px',left:0,right:0,bottom:0,
+          background:'rgba(255,255,255,0.98)',backdropFilter:'blur(12px)',
+          zIndex:999, display:'flex',flexDirection:'column',
+          padding:'32px 24px', gap:'8px'
+        }} className="mobile-menu page-enter">
+          {NAV_LINKS.map((link, i) => (
+            <button key={link} onClick={() => navigate(link)} style={{
+              background:'none', border:'none', cursor:'pointer',
+              textAlign:'left', padding:'16px 0',
+              fontFamily:'Bebas Neue,cursive',fontSize:'2.2rem',
+              letterSpacing:'0.06em',
+              color: page === link ? '#FFA726' : '#0A0A0A',
+              borderBottom: i < NAV_LINKS.length-1 ? '1px solid #f0f0f0' : 'none',
+            }}>{link}</button>
+          ))}
+          <button className="btn-primary" onClick={() => navigate('Contact')}
+            style={{marginTop:'24px',padding:'16px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.9rem',textAlign:'center'}}>
+            Book Free Consultation Call
+          </button>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-btn { display: flex !important; }
+          .brand-logo { height: 44px !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+/* ===================== FOOTER ===================== */
+function Footer({ setPage }) {
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+  return (
+    <footer style={{background:'#0A0A0A',color:'#fff',padding:'64px 24px 32px'}}>
+      <div style={{maxWidth:'1280px',margin:'0 auto'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'48px',marginBottom:'48px'}}>
+          <div>
+            <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.8rem',letterSpacing:'0.08em',color:'#fff',marginBottom:'8px'}}>
+              MY PAIN ZONE
+            </div>
+            <div style={{fontSize:'0.82rem',letterSpacing:'0.2em',color:'#FFA726',fontWeight:'800',marginBottom:'16px',textTransform:'uppercase'}}>
+              WELLNESS & STRENGTH
+            </div>
+            <p style={{color:'#9E9E9E',fontSize:'0.88rem',lineHeight:'1.7',maxWidth:'260px'}}>
+              Transforming lives through the fusion of modern fitness science and ancient Ayurvedic wisdom.
+            </p>
+            <div style={{display:'flex',gap:'12px',marginTop:'20px'}}>
+              {['📘','📸','▶️','💬'].map((icon,i) => (
+                <button key={i} style={{
+                  width:'38px',height:'38px',borderRadius:'8px',
+                  background:'rgba(255,255,255,0.08)',border:'none',cursor:'pointer',
+                  fontSize:'16px',display:'flex',alignItems:'center',justifyContent:'center',
+                  transition:'background 0.2s'
+                }} onMouseEnter={e=>e.target.style.background='rgba(255,167,38,0.2)'}
+                   onMouseLeave={e=>e.target.style.background='rgba(255,255,255,0.08)'}>
+                  {icon}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1rem',letterSpacing:'0.12em',color:'#FFA726',marginBottom:'20px'}}>OUR SERVICES</h4>
+            {['Personal Training','Diet Plans','Ayurvedic Consultation','Product Store','Free Consultation'].map(s => (
+  <div key={s} style={{color:'#9E9E9E',fontSize:'0.88rem',marginBottom:'12px'}}>{s}</div>
+))}
+            
+          </div>
+          <div>
+            <h4 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1rem',letterSpacing:'0.12em',color:'#FFA726',marginBottom:'20px'}}>CONTACT</h4>
+            {[
+              {Icon: MapPin, text: 'Pune, Maharashtra, India'},
+              {Icon: PhoneIcon, text: '+91 98765 43210'},
+              {Icon: MailIcon, text: 'hello@mypainzone.in'},
+            ].map(({Icon,text},i) => (
+              <div key={i} style={{display:'flex',gap:'12px',alignItems:'center',marginBottom:'14px',color:'#9E9E9E',fontSize:'0.88rem'}}>
+                <span style={{color:'#FFA726',flexShrink:0}}><Icon /></span>{text}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{borderTop:'1px solid rgba(255,255,255,0.08)',paddingTop:'24px',display:'flex',flexWrap:'wrap',justifyContent:'space-between',alignItems:'center',gap:'12px'}}>
+          <p style={{color:'#9E9E9E',fontSize:'0.8rem'}}>© 2025 My Pain Zone. All rights reserved. Built with 🔥</p>
+          <div style={{display:'flex',gap:'24px'}}>
+            {['Privacy Policy','Terms','Refund Policy'].map(l => (
+              <span key={l} style={{color:'#9E9E9E',fontSize:'0.8rem',cursor:'pointer'}}>{l}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ===================== HOME PAGE ===================== */
+function HomePage({ setPage, setSelectedProduct }) {
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setActiveTestimonial(p => (p+1)%TESTIMONIALS.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <div className="page-enter">
+      {/* HERO */}
+      <section style={{
+        minHeight:'100vh',
+        backgroundColor:'#0A0A0A',
+        backgroundImage:"linear-gradient(rgba(10,10,10,0.62), rgba(10,10,10,0.62)), url('./hero-bg.jpg.png'), url('./ca1.PNG')",
+        backgroundSize:'cover',
+        backgroundPosition:'center',
+        backgroundRepeat:'no-repeat',
+        display:'flex',alignItems:'center',
+        position:'relative',overflow:'hidden',
+        paddingTop:'70px'
+      }}>
+        <div style={{maxWidth:'1280px',margin:'0 auto',padding:'80px 24px',display:'grid',gridTemplateColumns:'1fr',gap:'24px',alignItems:'center',position:'relative',zIndex:1}}>
+          <div>
+            <div style={{display:'inline-flex',alignItems:'center',gap:'8px',marginBottom:'24px'}}>
+              <span style={{color:'#FFE1B0',fontSize:'0.9rem',fontWeight:'900',letterSpacing:'0.24em',textTransform:'uppercase',textShadow:'0 1px 8px rgba(0,0,0,0.35)'}}>Premium Wellness Brand</span>
+            </div>
+            <h1 style={{
+              fontFamily:'Bebas Neue,cursive',
+              fontSize:'clamp(4rem,8vw,7rem)',
+              lineHeight:'0.95',
+              color:'#FFF6E6',
+              marginBottom:'24px',
+              letterSpacing:'0.02em'
+            }}>
+              TRANSFORM<br/>
+              <span style={{color:'#FFB347'}}>YOUR PAIN</span><br/>
+              INTO POWER
+            </h1>
+            <p style={{color:'#EFD7B1',fontSize:'1.05rem',lineHeight:'1.8',marginBottom:'40px',maxWidth:'560px'}}>
+              Fusing modern fitness science with 5000-year-old Ayurvedic wisdom. Personalized training, precision nutrition, and natural healing — all under one roof.
+            </p>
+            <div style={{display:'flex',gap:'16px',flexWrap:'wrap'}}>
+              <button className="btn-primary pulse-orange" onClick={() => navigate('Contact')}
+                style={{padding:'16px 36px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.9rem',display:'flex',alignItems:'center',gap:'8px'}}>
+                Start Your Journey <ArrowRight />
+              </button>
+              <button className="btn-outline hero-shop-btn" onClick={() => navigate('Products')}
+                style={{padding:'16px 36px',borderRadius:'10px',cursor:'pointer',fontSize:'0.9rem',background:'transparent'}}>
+                Shop Products
+              </button>
+            </div>
+            <div style={{display:'flex',gap:'40px',marginTop:'48px'}}>
+              {[['200+','Clients Transformed'],['98%','Success Rate'],['4.7★','Average Rating']].map(([num,label]) => (
+                <div key={label}>
+                  <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'2.2rem',color:'#FFC36B',letterSpacing:'0.04em'}}>{num}</div>
+                  <div style={{color:'#E7D0AB',fontSize:'0.78rem',letterSpacing:'0.1em',textTransform:'uppercase'}}>{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MARQUEE BAND */}
+      <div style={{background:'#FFA726',padding:'14px 0',overflow:'hidden'}}>
+        <div className="marquee-track">
+          {[...Array(2)].map((_,j) => (
+            <div key={j} style={{display:'flex',gap:'48px',paddingRight:'48px'}}>
+              {['PERSONAL TRAINING','DIET PLANS','AYURVEDIC WELLNESS','NATURAL SUPPLEMENTS','STRENGTH & DISCIPLINE','HOLISTIC HEALING','ZERO CHEMICALS','PROVEN RESULTS'].map(t => (
+                <span key={t} style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.1rem',letterSpacing:'0.15em',color:'#0A0A0A',display:'flex',alignItems:'center',gap:'16px'}}>
+                  {t} <span style={{color:'rgba(0,0,0,0.3)'}}>✦</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SERVICES SECTION */}
+      <section style={{padding:'96px 24px',background:'#fff'}}>
+        <div style={{maxWidth:'1280px',margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:'64px'}}>
+            <h2 className="section-heading" style={{fontSize:'clamp(2.5rem,5vw,4rem)',marginBottom:'16px'}}>WHAT WE OFFER</h2>
+            <p style={{color:'#6B6B6B',fontSize:'1rem',maxWidth:'500px',margin:'0 auto',lineHeight:'1.7'}}>
+              Three pillars of transformation working in synergy to unlock your best self.
+            </p>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'24px'}}>
+            {SERVICES.map((s, i) => (
+              <div key={s.id} className="service-card" style={{
+                background:'#fff',borderRadius:'20px',padding:'40px 32px',
+                boxShadow:'0 2px 24px rgba(0,0,0,0.06)',cursor:'pointer',
+                transition:'all 0.3s ease',
+              }} onClick={() => navigate('Services')}>
+                <div style={{
+                  width:'72px',height:'72px',borderRadius:'18px',
+                  background:s.color,
+                  display:'flex',alignItems:'center',justifyContent:'center',
+                  fontSize:'32px',marginBottom:'24px'
+                }}>{s.icon}</div>
+                <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.6rem',letterSpacing:'0.04em',marginBottom:'12px'}}>{s.title}</h3>
+                <p style={{color:'#6B6B6B',lineHeight:'1.7',fontSize:'0.9rem',marginBottom:'24px'}}>{s.short}</p>
+                <button style={{
+                  background:'none',border:'none',cursor:'pointer',
+                  color:'#FFA726',fontWeight:'800',fontSize:'0.92rem',
+                  letterSpacing:'0.08em',textTransform:'uppercase',
+                  display:'flex',alignItems:'center',gap:'6px',padding:0
+                }}>Learn More <ArrowRight /></button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED PRODUCTS */}
+      <section style={{padding:'96px 24px',background:'#F8F8F8'}} className="stripe-bg">
+        <div style={{maxWidth:'1280px',margin:'0 auto'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:'56px',flexWrap:'wrap',gap:'16px'}}>
+            <div>
+              <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px'}}>
+                <span style={{fontSize:'1.05rem',fontWeight:'800',letterSpacing:'0.22em',color:'#FFA726',textTransform:'uppercase'}}>Featured Products</span>
+              </div>
+              <h2 className="section-heading" style={{fontSize:'clamp(3rem,6vw,5rem)'}}>SUPPLEMENTS</h2>
+            </div>
+            <button className="btn-outline" onClick={() => navigate('Products')}
+              style={{padding:'12px 28px',borderRadius:'8px',cursor:'pointer',background:'transparent',display:'flex',alignItems:'center',gap:'8px'}}>
+              View All Products <ArrowRight />
+            </button>
+          </div>
+          <div className="products-grid">
+            {PRODUCTS.slice(0,3).map(product => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onView={() => { setSelectedProduct(product); navigate('ProductDetail'); }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHY CHOOSE US */}
+      <section style={{padding:'96px 24px',background:'#0A0A0A',position:'relative',overflow:'hidden'}}>
+        <div style={{
+          position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',
+          width:'800px',height:'800px',borderRadius:'50%',
+          background:'radial-gradient(circle,rgba(255,167,38,0.06) 0%,transparent 70%)',
+          pointerEvents:'none'
+        }}></div>
+        <div style={{maxWidth:'1280px',margin:'0 auto',position:'relative',zIndex:1}}>
+          <div style={{textAlign:'center',marginBottom:'64px'}}>
+            <h2 className="section-heading" style={{fontSize:'clamp(2.5rem,5vw,4rem)',color:'#fff',marginBottom:'16px'}}>
+              WHY <span style={{color:'#FFA726'}}>MY PAIN ZONE</span>
+            </h2>
+            <p style={{color:'#9E9E9E',maxWidth:'500px',margin:'0 auto',lineHeight:'1.7'}}>
+              We're not just another wellness brand. We're a transformation ecosystem.
+            </p>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:'24px'}}>
+            {[
+              {icon:'🎯',title:'Hyper-Personalized',desc:'Every plan is built from scratch for your body, goals, and lifestyle.'},
+              {icon:'🌿',title:'100% Natural',desc:'Zero synthetic additives. Every product is Ayurvedic-certified and lab-tested.'},
+              {icon:'🔬',title:'Science-Backed',desc:'Our methods merge modern sports science with ancient healing protocols.'},
+              {icon:'📈',title:'Proven Results',desc:'2000+ clients transformed. Real stories. Real data. No excuses.'},
+            ].map(item => (
+              <div key={item.title} className="stat-card" style={{
+                background:'rgba(255,255,255,0.04)',borderRadius:'16px',padding:'32px 24px',
+                transition:'background 0.3s'
+              }} onMouseEnter={e=>e.currentTarget.style.background='rgba(255,167,38,0.08)'}
+                 onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,0.04)'}>
+                <div style={{fontSize:'40px',marginBottom:'16px'}}>{item.icon}</div>
+                <h3 style={{color:'#fff',fontFamily:'Bebas Neue,cursive',fontSize:'1.3rem',letterSpacing:'0.04em',marginBottom:'10px'}}>{item.title}</h3>
+                <p style={{color:'#9E9E9E',fontSize:'0.88rem',lineHeight:'1.7'}}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{padding:'96px 24px',background:'#fff'}}>
+        <div style={{maxWidth:'1280px',margin:'0 auto'}}>
+          <div style={{textAlign:'center',marginBottom:'64px'}}>
+            <h2 className="section-heading" style={{fontSize:'clamp(2.5rem,5vw,4rem)',marginBottom:'16px'}}>REAL PEOPLE,<br/>REAL RESULTS</h2>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'24px'}}>
+            {TESTIMONIALS.map((t,i) => (
+              <div key={i} className="testimonial-card" style={{
+                borderRadius:'16px',padding:'32px',transition:'all 0.3s',
+                background: activeTestimonial===i ? '#FFF3E0' : '#F8F8F8',
+                borderLeft: `4px solid ${activeTestimonial===i ? '#FFA726' : '#e0e0e0'}`
+              }}>
+                <div style={{display:'flex',gap:'4px',marginBottom:'16px'}}>
+                  {[1,2,3,4,5].map(s=><StarIcon key={s} filled={true}/>)}
+                </div>
+                <p style={{fontStyle:'italic',lineHeight:'1.8',color:'#333',fontSize:'0.92rem',marginBottom:'20px'}}>
+                  "{t.text}"
+                </p>
+                <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                  <div style={{
+                    width:'44px',height:'44px',borderRadius:'50%',
+                    background:'linear-gradient(135deg,#FFA726,#F57C00)',
+                    display:'flex',alignItems:'center',justifyContent:'center',
+                    fontFamily:'Bebas Neue,cursive',fontSize:'1.2rem',color:'#fff'
+                  }}>{t.name[0]}</div>
+                  <div>
+                    <div style={{fontWeight:'700',fontSize:'0.9rem'}}>{t.name}</div>
+                    <div style={{color:'#FFA726',fontSize:'0.86rem',fontWeight:'700'}}>{t.role} • {t.city}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Dots */}
+          <div style={{display:'flex',justifyContent:'center',gap:'8px',marginTop:'32px'}}>
+            {TESTIMONIALS.map((_,i) => (
+              <button key={i} onClick={() => setActiveTestimonial(i)} style={{
+                width: i===activeTestimonial ? '32px' : '8px',
+                height:'8px',borderRadius:'4px',
+                background: i===activeTestimonial ? '#FFA726' : '#e0e0e0',
+                border:'none',cursor:'pointer',transition:'all 0.3s'
+              }}></button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA BANNER */}
+      <section style={{
+        padding:'80px 24px',
+        background:'linear-gradient(135deg,#FFA726 0%,#F57C00 100%)',
+        position:'relative',overflow:'hidden'
+      }}>
+        <div style={{
+          position:'absolute',top:'-50%',right:'-10%',
+          width:'400px',height:'400px',borderRadius:'50%',
+          background:'rgba(255,255,255,0.08)'
+        }}></div>
+        <div style={{position:'relative',zIndex:1,textAlign:'center',maxWidth:'700px',margin:'0 auto'}}>
+          <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'0.9rem',letterSpacing:'0.25em',marginBottom:'16px',opacity:0.8}}>
+            READY TO TRANSFORM?
+          </div>
+          <h2 className="section-heading" style={{fontSize:'clamp(2.5rem,6vw,5rem)',color:'#0A0A0A',marginBottom:'20px',lineHeight:'0.95'}}>
+            YOUR STRONGEST<br/>VERSION AWAITS
+          </h2>
+          <p style={{color:'rgba(0,0,0,0.7)',fontSize:'1rem',lineHeight:'1.7',marginBottom:'40px'}}>
+            Join 2000+ individuals who chose discipline over comfort. Book your free consultation today — no commitment, just results.
+          </p>
+          <button className="btn-primary" onClick={() => { navigate('Contact'); }}
+            style={{
+              padding:'18px 48px',borderRadius:'12px',border:'none',cursor:'pointer',
+              fontSize:'1rem',background:'#0A0A0A',color:'#FFA726',
+              display:'inline-flex',alignItems:'center',gap:'10px'
+            }}>
+            Book Free Consultation <ArrowRight />
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ===================== PRODUCTS PAGE ===================== */
+function ProductsPage({ setPage, setSelectedProduct }) {
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+
+  return (
+    <div className="page-enter" style={{paddingTop:'70px'}}>
+      {/* Header */}
+      <div style={{background:'#fff',padding:'56px 24px 18px',borderBottom:'1px solid #f0f0f0'}}>
+        <div style={{maxWidth:'1280px',margin:'0 auto'}}>
+          <div style={{display:'inline-block',marginBottom:'14px'}}>
+            <span style={{color:'#0A0A0A',fontSize:'1.15rem',fontWeight:'900',letterSpacing:'0.12em',textTransform:'uppercase'}}>Products</span>
+          </div>
+          <h1 className="section-heading" style={{fontSize:'clamp(2.8rem,6vw,4.6rem)',color:'#0A0A0A',marginBottom:'10px',lineHeight:'0.95'}}>
+            SUPPLEMENTS
+          </h1>
+          <p style={{color:'#4F4F4F',maxWidth:'680px',lineHeight:'1.8'}}>
+            Crafted with clean ingredients and built for results. Explore all 6 products engineered for performance, recovery, and daily wellness.
+          </p>
+        </div>
+      </div>
+
+      {/* Products Grid */}
+      <div style={{maxWidth:'1280px',margin:'0 auto',padding:'48px 24px'}}>
+        <div className="products-grid">
+          {PRODUCTS.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onView={() => { setSelectedProduct(product); navigate('ProductDetail'); }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Equipments */}
+      <div style={{maxWidth:'1280px',margin:'0 auto',padding:'0 24px 48px'}}>
+        <div style={{marginBottom:'24px'}}>
+          <h2 className="section-heading" style={{fontSize:'clamp(2.8rem,6vw,4.6rem)',lineHeight:'0.95',color:'#0A0A0A'}}>EQUIPMENTS</h2>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:'16px'}}>
+          {[
+            { name: 'Resistance Bands Set', tag: 'Strength Tool', price: '₹899', note: 'Multiple tension levels for home and gym training.' },
+            { name: 'Adjustable Kettlebell', tag: 'Functional', price: '₹2,499', note: 'Space-saving design with multi-weight configuration.' },
+            { name: 'Foam Roller Pro', tag: 'Recovery', price: '₹699', note: 'Deep tissue release for faster recovery and mobility.' },
+          ].map((item) => (
+            <div key={item.name} className="product-grid-card" style={{padding:'22px'}}>
+              <div style={{fontSize:'0.7rem',color:'#6B6B6B',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'8px'}}>{item.tag}</div>
+              <h3 style={{fontWeight:'800',fontSize:'1.06rem',marginBottom:'10px',lineHeight:'1.35',color:'#0A0A0A'}}>{item.name}</h3>
+              <p style={{color:'#3a3a3a',fontSize:'0.9rem',lineHeight:'1.6',minHeight:'3.2em'}}>{item.note}</p>
+              <div style={{marginTop:'16px',fontWeight:'900',fontSize:'1.08rem',color:'#0A0A0A'}}>{item.price}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Launching Soon */}
+      <div style={{maxWidth:'1280px',margin:'0 auto',padding:'0 24px 72px'}}>
+        <div style={{marginBottom:'24px'}}>
+          <h2 className="section-heading" style={{fontSize:'clamp(2.8rem,6vw,4.6rem)',lineHeight:'0.95',color:'#0A0A0A'}}>LAUNCHING SOON</h2>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:'16px'}}>
+          {[
+            { name: 'Electrolyte Hydration Mix', eta: 'May 2026', detail: 'Rapid hydration formula for endurance and recovery sessions.' },
+            { name: 'Pre-Workout Natural Blend', eta: 'June 2026', detail: 'Plant-powered focus and performance support with zero crash.' },
+            { name: 'Joint Support Complex', eta: 'July 2026', detail: 'Advanced mobility support for heavy lifters and athletes.' },
+          ].map((item) => (
+            <div key={item.name} className="product-grid-card" style={{padding:'22px'}}>
+              <span className="badge" style={{display:'inline-flex',marginBottom:'10px'}}>Coming Soon</span>
+              <h3 style={{fontWeight:'800',fontSize:'1.06rem',marginBottom:'8px',lineHeight:'1.35',color:'#0A0A0A'}}>{item.name}</h3>
+              <p style={{color:'#3a3a3a',fontSize:'0.9rem',lineHeight:'1.6',marginBottom:'12px'}}>{item.detail}</p>
+              <div style={{fontSize:'0.78rem',fontWeight:'700',letterSpacing:'0.12em',textTransform:'uppercase',color:'#6B6B6B'}}>Expected: {item.eta}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== PRODUCT DETAIL PAGE ===================== */
+function ProductDetailPage({ product, setPage, addToCart }) {
+  const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+
+  const handleAdd = () => {
+    addToCart(product, qty);
+    setAdded(true);
+    setTimeout(()=>setAdded(false), 2500);
+  };
+
+  if(!product) return null;
+
+  return (
+    <div className="page-enter" style={{paddingTop:'70px',minHeight:'100vh'}}>
+      <div style={{maxWidth:'1280px',margin:'0 auto',padding:'48px 24px'}}>
+        {/* Back */}
+        <button onClick={() => navigate('Products')} style={{
+          display:'flex',alignItems:'center',gap:'8px',background:'none',border:'none',cursor:'pointer',
+          color:'#666',fontSize:'0.88rem',fontWeight:'600',marginBottom:'36px',padding:0
+        }}>
+          <BackArrow /> Back to Products
+        </button>
+
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'64px',alignItems:'start'}}>
+          {/* Images */}
+          <div>
+            <div style={{
+              borderRadius:'24px',height:'440px',marginBottom:'16px',
+              boxShadow:'0 16px 48px rgba(0,0,0,0.1)',overflow:'hidden',background:'#f8f8f8'
+            }}>
+              <ProductImage src={product.image} alt={product.name} style={{width:'100%',height:'100%',display:'block'}} fit="contain" />
+            </div>
+          </div>
+
+          {/* Details */}
+          <div>
+            <div style={{display:'flex',gap:'8px',marginBottom:'16px'}}>
+              <span className="badge">{product.tag}</span>
+              <span style={{fontSize:'0.75rem',fontWeight:'700',color:'#9E9E9E',textTransform:'uppercase',letterSpacing:'0.1em',display:'flex',alignItems:'center',padding:'3px 10px',border:'1px solid #e0e0e0',borderRadius:'999px'}}>{product.category}</span>
+            </div>
+            <h1 style={{fontFamily:'Bebas Neue,cursive',fontSize:'clamp(2rem,4vw,3rem)',letterSpacing:'0.02em',lineHeight:'1',marginBottom:'16px'}}>{product.name}</h1>
+            <div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'20px'}}>
+              <Stars rating={product.rating}/>
+              <span style={{fontWeight:'700'}}>{product.rating}</span>
+              <span style={{color:'#9E9E9E',fontSize:'0.85rem'}}>({product.reviews} verified reviews)</span>
+            </div>
+            <p style={{color:'#555',lineHeight:'1.8',fontSize:'0.95rem',marginBottom:'24px'}}>{product.description}</p>
+
+            {/* Price */}
+            <div style={{background:'#F8F8F8',borderRadius:'14px',padding:'20px',marginBottom:'24px',display:'flex',alignItems:'center',gap:'16px',flexWrap:'wrap'}}>
+              <div>
+                <div style={{fontSize:'0.75rem',color:'#9E9E9E',fontWeight:'600',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'4px'}}>Price</div>
+                <div style={{display:'flex',alignItems:'baseline',gap:'8px'}}>
+                  <span style={{fontWeight:'900',fontSize:'2rem'}}>₹{product.price}</span>
+                  <span style={{fontSize:'1rem',color:'#9E9E9E',textDecoration:'line-through'}}>₹{product.originalPrice}</span>
+                  <span style={{background:'#FFA726',color:'#000',fontWeight:'800',fontSize:'0.75rem',padding:'2px 10px',borderRadius:'999px'}}>
+                    SAVE ₹{product.originalPrice-product.price}
+                  </span>
+                </div>
+              </div>
+              <div style={{marginLeft:'auto',textAlign:'right'}}>
+                <div style={{fontSize:'0.75rem',color:'#9E9E9E',fontWeight:'600',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'4px'}}>Pack Size</div>
+                <div style={{fontWeight:'700'}}>{product.weight}</div>
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div style={{marginBottom:'28px'}}>
+              <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.2rem',letterSpacing:'0.06em',marginBottom:'14px'}}>KEY BENEFITS</h3>
+              <div style={{display:'grid',gap:'10px'}}>
+                {product.benefits.map((b,i) => (
+                  <div key={i} style={{display:'flex',alignItems:'center',gap:'10px',fontSize:'0.9rem',color:'#333'}}>
+                    <CheckIcon />{b}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Qty + Add to Cart */}
+            <div style={{display:'flex',gap:'12px',alignItems:'center',flexWrap:'wrap'}}>
+              <div style={{display:'flex',alignItems:'center',border:'1px solid #e0e0e0',borderRadius:'10px',overflow:'hidden'}}>
+                <button onClick={() => setQty(q=>Math.max(1,q-1))} style={{
+                  width:'44px',height:'52px',border:'none',background:'#F8F8F8',cursor:'pointer',
+                  fontSize:'1.2rem',fontWeight:'700',transition:'background 0.2s'
+                }}>−</button>
+                <span style={{width:'48px',textAlign:'center',fontWeight:'700',fontSize:'1.1rem'}}>{qty}</span>
+                <button onClick={() => setQty(q=>q+1)} style={{
+                  width:'44px',height:'52px',border:'none',background:'#F8F8F8',cursor:'pointer',
+                  fontSize:'1.2rem',fontWeight:'700',transition:'background 0.2s'
+                }}>+</button>
+              </div>
+              <button className="btn-primary" onClick={handleAdd} style={{
+                flex:1,padding:'16px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.9rem',
+                background: added ? '#2e7d32' : '#FFA726',color: added ? '#fff' : '#000',
+                transition:'background 0.3s',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px'
+              }}>
+                {added ? '✓ Added to Cart!' : `Add ${qty} to Cart — ₹${product.price * qty}`}
+              </button>
+            </div>
+            <div style={{display:'flex',gap:'16px',marginTop:'16px'}}>
+              {['✅ Free Shipping ₹999+','🔒 Secure Payment','📦 COD Available'].map(t=>(
+                <span key={t} style={{fontSize:'0.75rem',color:'#666',fontWeight:'600'}}>{t}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`@media(max-width:768px){.product-detail-grid{grid-template-columns:1fr!important}}`}</style>
+    </div>
+  );
+}
+
+/* ===================== SERVICES PAGE ===================== */
+function ServicesPage({ setPage }) {
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+  return (
+    <div className="page-enter" style={{paddingTop:'70px'}}>
+      <div style={{background:'#0A0A0A',padding:'80px 24px 64px',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(255,167,38,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,167,38,0.04) 1px,transparent 1px)',backgroundSize:'60px 60px'}}></div>
+        <div style={{maxWidth:'1280px',margin:'0 auto',position:'relative',zIndex:1,textAlign:'center'}}>
+          <h1 className="section-heading" style={{fontSize:'clamp(3rem,7vw,6rem)',color:'#fff',marginBottom:'16px',lineHeight:'0.95'}}>
+            OUR <span style={{color:'#FFA726'}}>SERVICES</span>
+          </h1>
+          <p style={{color:'#9E9E9E',maxWidth:'600px',margin:'0 auto',lineHeight:'1.8',fontSize:'1rem'}}>
+            Three specialized pillars of wellness, working in synergy to create the most complete transformation of your life.
+          </p>
+        </div>
+      </div>
+
+      <div style={{maxWidth:'1280px',margin:'0 auto',padding:'80px 24px'}}>
+        {SERVICES.map((s,i) => (
+          <div key={s.id} style={{
+            display:'grid',gridTemplateColumns: i%2===0 ? '1fr 1fr' : '1fr 1fr',
+            gap:'64px',alignItems:'center',marginBottom:'80px',
+            direction: i%2===1 ? 'rtl' : 'ltr'
+          }}>
+            <div style={{
+              background:s.color,borderRadius:'28px',
+              height:'400px',display:'flex',flexDirection:'column',
+              alignItems:'center',justifyContent:'center',gap:'16px',
+              direction:'ltr',position:'relative',overflow:'hidden'
+            }}>
+              <div style={{fontSize:'96px'}}>{s.icon}</div>
+              <div style={{fontFamily:'DM Sans,sans-serif',fontSize:'1.62rem',fontWeight:'900',letterSpacing:'0.03em',color:'#0A0A0A',textTransform:'uppercase',textAlign:'center'}}>{s.title}</div>
+              <div style={{
+                position:'absolute',bottom:'24px',left:'50%',transform:'translateX(-50%)',
+                background:'rgba(255,167,38,0.2)',backdropFilter:'blur(8px)',
+                padding:'8px 20px',borderRadius:'999px',
+                fontWeight:'700',fontSize:'0.85rem',color:'#0A0A0A',whiteSpace:'nowrap'
+              }}>{s.price}</div>
+            </div>
+            <div style={{direction:'ltr'}}>
+              <div style={{display:'inline-flex',alignItems:'center',gap:'8px',marginBottom:'20px'}}>
+                <span style={{color:'#FFA726',fontSize:'0.84rem',fontWeight:'800',letterSpacing:'0.2em',textTransform:'uppercase'}}>Service {String(i+1).padStart(2,'0')}</span>
+              </div>
+              <h2 style={{fontFamily:'DM Sans,sans-serif',fontSize:'clamp(1.95rem,4.3vw,3.3rem)',fontWeight:'900',letterSpacing:'0.01em',marginBottom:'16px',lineHeight:'1.08',textTransform:'uppercase'}}>{s.title}</h2>
+              <p style={{color:'#555',lineHeight:'1.9',fontSize:'0.95rem',marginBottom:'28px'}}>{s.description}</p>
+              <div style={{display:'grid',gap:'12px',marginBottom:'36px'}}>
+                {s.features.map((f,j) => (
+                  <div key={j} style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                    <div style={{
+                      width:'28px',height:'28px',borderRadius:'50%',
+                      background:'#FFF3E0',display:'flex',alignItems:'center',justifyContent:'center',
+                      flexShrink:0
+                    }}><CheckIcon /></div>
+                    <span style={{fontSize:'0.92rem',fontWeight:'500',color:'#333'}}>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>
+                <button className="btn-primary" onClick={() => navigate('Contact')}
+                  style={{padding:'14px 32px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.88rem'}}>
+                  Get Started
+                </button>
+                <button className="btn-outline" style={{padding:'14px 28px',borderRadius:'10px',cursor:'pointer',fontSize:'0.88rem',background:'transparent'}}>
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Pricing Banner */}
+      <div style={{background:'#F8F8F8',padding:'64px 24px'}}>
+        <div style={{maxWidth:'1000px',margin:'0 auto',textAlign:'center'}}>
+          <h2 className="section-heading" style={{fontSize:'clamp(2rem,4vw,3rem)',marginBottom:'16px'}}>READY TO BEGIN?</h2>
+          <p style={{color:'#666',lineHeight:'1.7',marginBottom:'36px'}}>All plans include a FREE 30-minute consultation call. No upfront payment needed.</p>
+          <button className="btn-primary pulse-orange" onClick={() => navigate('Contact')}
+            style={{padding:'18px 48px',borderRadius:'12px',border:'none',cursor:'pointer',fontSize:'1rem',display:'inline-flex',alignItems:'center',gap:'10px'}}>
+            Book Free Consultation <ArrowRight />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== ABOUT PAGE ===================== */
+function AboutPage({ setPage }) {
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+  return (
+    <div className="page-enter" style={{paddingTop:'70px'}}>
+      {/* Hero */}
+      <div style={{background:'#0A0A0A',padding:'80px 24px',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(255,167,38,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,167,38,0.04) 1px,transparent 1px)',backgroundSize:'60px 60px'}}></div>
+        <div style={{maxWidth:'1280px',margin:'0 auto',position:'relative',zIndex:1}}>
+          <h1 className="section-heading" style={{fontSize:'clamp(3.4rem,7.6vw,6.8rem)',color:'#fff',lineHeight:'0.95',marginBottom:'24px',fontWeight:'900'}}>
+            OUR <span style={{color:'#FFB63D',fontWeight:'900',textShadow:'0 2px 12px rgba(255,182,61,0.25)'}}>STORY</span>
+          </h1>
+          <p style={{color:'#CFCFCF',maxWidth:'720px',lineHeight:'1.9',fontSize:'1.2rem',fontWeight:'600'}}>
+            "My Pain Zone was built on the belief that pain is not a weakness, but a gateway to transformation. We help individuals unlock their strongest version through discipline, natural healing, and consistency."
+          </p>
+        </div>
+      </div>
+
+      {/* Team — Top of About */}
+      <section style={{padding:'64px 24px 0',background:'#fff'}}>
+        <div style={{maxWidth:'1280px',margin:'0 auto',display:'flex',gap:'48px',flexWrap:'wrap'}}>
+          {[
+            {
+              name:'Tanmay Misale',
+              role:'Founder & CEO',
+              bio:'Certified strength coach and Ayurveda enthusiast with 8+ years in the wellness industry. Tanmay built My Pain Zone from the ground up — merging modern fitness science with ancient healing to create a methodology that actually delivers results.',
+              initials:'TM',
+            },
+            {
+              name:'Anand Misale',
+              role:'Manager & Operations Head',
+              bio:'Operations strategist and the backbone of My Pain Zone\'s day-to-day excellence. Anand oversees client experience, partnerships, and ensures every transformation journey runs seamlessly from start to finish.',
+              initials:'AM',
+            },
+          ].map(person => (
+            <div key={person.name} style={{display:'flex',gap:'28px',alignItems:'stretch',flex:'1',minWidth:'320px'}}>
+              <div style={{
+                width:'140px',height:'168px',borderRadius:'26px',flexShrink:0,
+                background:'linear-gradient(135deg,#FFF3E0,#FFE0B2)',
+                border:'2px dashed #FFA726',
+                display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+                gap:'4px',cursor:'pointer',
+              }}>
+                <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.7rem',color:'#FFA726',letterSpacing:'0.06em'}}>{person.initials}</div>
+                <div style={{fontSize:'0.65rem',color:'#F57C00',fontWeight:'800',letterSpacing:'0.12em',textTransform:'uppercase'}}>Add Photo</div>
+              </div>
+              <div style={{flex:1,minHeight:'168px',display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                <div style={{fontWeight:'900',fontSize:'1.12rem',color:'#0A0A0A',textTransform:'uppercase',letterSpacing:'0.16em',marginBottom:'6px'}}>
+                  {person.role}
+                </div>
+                <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'2.75rem',color:'#FFA726',letterSpacing:'0.06em',lineHeight:'1',marginBottom:'12px'}}>
+                  {person.name}
+                </div>
+                <p style={{color:'#5F5F5F',fontSize:'1rem',lineHeight:'1.8',fontWeight:'600',maxWidth:'460px'}}>
+                  {person.bio}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Brand Story */}
+      <section style={{padding:'96px 24px'}}>
+        <div style={{maxWidth:'1280px',margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'80px',alignItems:'center'}}>
+          <div>
+            <div style={{display:'inline-flex',alignItems:'center',gap:'8px',marginBottom:'20px'}}>
+              <span style={{color:'#FFB63D',fontSize:'0.96rem',fontWeight:'900',letterSpacing:'0.2em',textTransform:'uppercase'}}>Who We Are</span>
+            </div>
+            <h2 className="section-heading" style={{fontSize:'clamp(2.4rem,4.6vw,3.9rem)',marginBottom:'24px',lineHeight:'1',fontWeight:'900'}}>
+              PAIN IS THE<br/>STARTING POINT
+            </h2>
+            <p style={{color:'#4F4F4F',lineHeight:'1.9',marginBottom:'20px',fontSize:'1.02rem',fontWeight:'600'}}>
+              My Pain Zone was born from a simple truth: every breakthrough starts with discomfort. Our founder Tanmay Misale experienced this firsthand — battling through injuries, burnout, and the search for a wellness system that actually worked.
+            </p>
+            <p style={{color:'#4F4F4F',lineHeight:'1.9',marginBottom:'20px',fontSize:'1.02rem',fontWeight:'600'}}>
+              Unable to find a solution that married the precision of modern fitness with the wisdom of Ayurveda, he built one. What started as a personal experiment became a methodology, and that methodology became My Pain Zone.
+            </p>
+            <p style={{color:'#4F4F4F',lineHeight:'1.9',marginBottom:'36px',fontSize:'1.02rem',fontWeight:'600'}}>
+              Today, we've transformed 2000+ lives across India — from elite athletes to everyday warriors. Our products are formulated by Ayurvedic experts, our programs are designed by certified trainers, and every consultation is built around the individual.
+            </p>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'20px'}}>
+              {[['2000+','Clients'],['5 Years','Experience'],['100%','Natural'],['3','Expert Services']].map(([n,l]) => (
+                <div key={l} style={{padding:'22px',background:'#F8F8F8',borderRadius:'14px',borderTop:'3px solid #FFA726'}}>
+                  <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'2rem',color:'#0A0A0A',letterSpacing:'0.05em'}}>{n}</div>
+                  <div style={{color:'#8F8F8F',fontSize:'0.9rem',fontWeight:'700',textTransform:'uppercase',letterSpacing:'0.12em'}}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{
+            background:'linear-gradient(135deg,#FFF3E0,#FFE0B2)',
+            borderRadius:'28px',height:'500px',display:'flex',flexDirection:'column',
+            alignItems:'center',justifyContent:'center',gap:'12px',
+            position:'relative',overflow:'hidden'
+          }}>
+            
+            <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'2.3rem',letterSpacing:'0.12em',color:'#0A0A0A'}}>MY PAIN ZONE</div>
+            <div style={{fontSize:'0.92rem',letterSpacing:'0.24em',color:'#F57C00',fontWeight:'800',textTransform:'uppercase'}}>SINCE 2019</div>
+            {/* Floating elements removed */}
+          </div>
+        </div>
+      </section>
+
+      {/* Mission */}
+      <section style={{background:'#0A0A0A',padding:'80px 24px'}}>
+        <div style={{maxWidth:'1280px',margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:'32px'}}>
+          {[
+            {title:'Our Mission',text:'Promote natural, chemical-free wellness accessible to every Indian. We believe your body deserves real ingredients, not lab-manufactured shortcuts.'},
+            {title:'Our Vision',text:'Become India\'s most trusted holistic wellness platform — where ancient Ayurveda meets cutting-edge fitness science in one seamless ecosystem.'},
+            {title:'Our Promise',text:'Every product is lab-tested, every plan is personalized, and every consultation is honest. Zero hype, 100% results or we make it right.'},
+          ].map(item => (
+            <div key={item.title} style={{textAlign:'center',padding:'44px 24px'}}>
+              <div style={{fontSize:'56px',marginBottom:'20px'}}>{item.icon}</div>
+              <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.85rem',fontWeight:'900',color:'#FFB63D',letterSpacing:'0.1em',marginBottom:'16px'}}>{item.title}</h3>
+              <p style={{color:'#BDBDBD',lineHeight:'1.85',fontSize:'1rem',fontWeight:'600'}}>{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+/* ===================== CONTACT PAGE ===================== */
+function ContactPage() {
+  const [form, setForm] = useState({name:'',email:'',phone:'',service:'',message:''});
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = e => setForm({...form,[e.target.name]:e.target.value});
+  const handleSubmit = e => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => { setLoading(false); setSubmitted(true); }, 1500);
+  };
+
+  return (
+    <div className="page-enter" style={{paddingTop:'70px'}}>
+      <div style={{background:'#0A0A0A',padding:'80px 24px 64px',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(255,167,38,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,167,38,0.04) 1px,transparent 1px)',backgroundSize:'60px 60px'}}></div>
+        <div style={{maxWidth:'1280px',margin:'0 auto',position:'relative',zIndex:1,textAlign:'center'}}>
+          <h1 className="section-heading" style={{fontSize:'clamp(3rem,7vw,6rem)',color:'#fff',marginBottom:'16px',lineHeight:'0.95'}}>
+            START YOUR<br/><span style={{color:'#FFA726'}}>JOURNEY</span>
+          </h1>
+          <p style={{color:'#9E9E9E',maxWidth:'500px',margin:'0 auto',lineHeight:'1.7'}}>
+            Book your first consultation call. No commitment, no pressure — just your first step toward transformation.
+          </p>
+        </div>
+      </div>
+
+      <div style={{maxWidth:'1280px',margin:'0 auto',padding:'80px 24px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1.4fr',gap:'64px'}}>
+          {/* Info */}
+          <div>
+            <h2 className="section-heading" style={{fontSize:'2.2rem',marginBottom:'32px'}}>GET IN TOUCH</h2>
+            {[
+              {Icon:PhoneIcon,label:'Phone',value:'+91 98765 43210',sub:'Mon–Sat 9am–7pm IST'},
+              {Icon:MailIcon,label:'Email',value:'hello@mypainzone.in',sub:'We reply within 2 hours'},
+              {Icon:MapPin,label:'Location',value:'Pune, Maharashtra',sub:'India • Online Consultations Available'},
+            ].map(({Icon,label,value,sub}) => (
+              <div key={label} style={{display:'flex',gap:'16px',alignItems:'flex-start',marginBottom:'32px'}}>
+                <div style={{
+                  width:'48px',height:'48px',borderRadius:'14px',
+                  background:'#FFF3E0',display:'flex',alignItems:'center',justifyContent:'center',
+                  color:'#FFA726',flexShrink:0
+                }}><Icon /></div>
+                <div>
+                  <div style={{fontSize:'0.72rem',fontWeight:'700',letterSpacing:'0.15em',textTransform:'uppercase',color:'#9E9E9E',marginBottom:'4px'}}>{label}</div>
+                  <div style={{fontWeight:'700',fontSize:'1rem',marginBottom:'2px'}}>{value}</div>
+                  <div style={{fontSize:'0.82rem',color:'#9E9E9E'}}>{sub}</div>
+                </div>
+              </div>
+            ))}
+
+            <div style={{marginTop:'32px'}}>
+              <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.1rem',letterSpacing:'0.1em',marginBottom:'16px',color:'#9E9E9E'}}>FOLLOW US</h3>
+              <div style={{display:'flex',gap:'12px'}}>
+                {[['📘','Facebook'],['📸','Instagram'],['▶️','YouTube'],['💬','WhatsApp']].map(([icon,name]) => (
+                  <button key={name} title={name} style={{
+                    width:'48px',height:'48px',borderRadius:'14px',border:'1px solid #e0e0e0',
+                    background:'#fff',cursor:'pointer',fontSize:'20px',
+                    display:'flex',alignItems:'center',justifyContent:'center',
+                    transition:'all 0.2s'
+                  }} onMouseEnter={e=>{e.currentTarget.style.background='#FFA726';e.currentTarget.style.borderColor='#FFA726';}}
+                     onMouseLeave={e=>{e.currentTarget.style.background='#fff';e.currentTarget.style.borderColor='#e0e0e0';}}>{icon}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Form */}
+          <div style={{background:'#F8F8F8',borderRadius:'24px',padding:'48px'}}>
+            {submitted ? (
+              <div style={{textAlign:'center',padding:'40px 0'}}>
+                <div style={{fontSize:'64px',marginBottom:'20px'}}>✅</div>
+                <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'2rem',marginBottom:'12px',letterSpacing:'0.04em'}}>MESSAGE SENT!</h3>
+                <p style={{color:'#666',lineHeight:'1.7',marginBottom:'24px'}}>
+                  Thanks {form.name}! We'll reach out within 2 hours to schedule your first consultation call.
+                </p>
+                <button className="btn-primary" onClick={() => { setSubmitted(false); setForm({name:'',email:'',phone:'',service:'',message:''}); }}
+                  style={{padding:'14px 32px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.88rem'}}>
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <h2 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.8rem',letterSpacing:'0.04em',marginBottom:'8px'}}>BOOK YOUR FIRST CONSULTATION CALL</h2>
+                <p style={{color:'#9E9E9E',fontSize:'0.88rem',marginBottom:'32px'}}>Fill out the form and we'll call you back within 2 hours.</p>
+
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'16px'}}>
+                  {[{name:'name',placeholder:'Full Name *',type:'text',required:true},{name:'email',placeholder:'Email Address *',type:'email',required:true}].map(f=>(
+                    <input key={f.name} name={f.name} type={f.type} placeholder={f.placeholder} required={f.required}
+                      value={form[f.name]} onChange={handleChange}
+                      style={{padding:'14px 16px',borderRadius:'10px',border:'1px solid #e0e0e0',
+                        fontSize:'0.9rem',background:'#fff',width:'100%',transition:'border 0.2s'}}/>
+                  ))}
+                </div>
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'16px'}}>
+                  <input name="phone" type="tel" placeholder="Phone Number" value={form.phone} onChange={handleChange}
+                    style={{padding:'14px 16px',borderRadius:'10px',border:'1px solid #e0e0e0',fontSize:'0.9rem',background:'#fff'}}/>
+                  <select name="service" value={form.service} onChange={handleChange}
+                    style={{padding:'14px 16px',borderRadius:'10px',border:'1px solid #e0e0e0',fontSize:'0.9rem',background:'#fff',color:form.service?'#333':'#9E9E9E',cursor:'pointer'}}>
+                    <option value="">Service Interested In</option>
+                    <option>Personal Training</option>
+                    <option>Diet Plan</option>
+                    <option>Ayurvedic Consultation</option>
+                    <option>Products</option>
+                    <option>All Services</option>
+                  </select>
+                </div>
+                <textarea name="message" placeholder="Tell us about your goals, current challenges, and what transformation means to you..." value={form.message} onChange={handleChange}
+                  rows={4} style={{width:'100%',padding:'14px 16px',borderRadius:'10px',border:'1px solid #e0e0e0',
+                    fontSize:'0.9rem',background:'#fff',resize:'vertical',marginBottom:'24px',fontFamily:'inherit'}}/>
+
+                <button type="submit" className="btn-primary" style={{
+                  width:'100%',padding:'16px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.95rem',
+                  display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',
+                  opacity: loading ? 0.7 : 1
+                }}>
+                  {loading ? '⏳ Sending...' : 'Book Your First Consultation Call →'}
+                </button>
+                <p style={{textAlign:'center',marginTop:'12px',fontSize:'0.78rem',color:'#9E9E9E'}}>
+                  🔒 Your information is 100% private. No spam, ever.
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== CART PAGE ===================== */
+function CartPage({ cart, setCart, setPage }) {
+  const navigate = (p) => { setPage(p); window.scrollTo(0,0); };
+  const total = cart.reduce((sum,item) => sum + item.product.price * item.qty, 0);
+  const removeItem = (id) => setCart(c => c.filter(i=>i.product.id !== id));
+  const updateQty = (id, delta) => setCart(c => c.map(i => i.product.id===id ? {...i,qty:Math.max(1,i.qty+delta)} : i));
+
+  return (
+    <div className="page-enter" style={{paddingTop:'70px',minHeight:'100vh',background:'#F8F8F8'}}>
+      <div style={{maxWidth:'900px',margin:'0 auto',padding:'48px 24px'}}>
+        <h1 className="section-heading" style={{fontSize:'3rem',marginBottom:'8px'}}>YOUR CART</h1>
+        <p style={{color:'#9E9E9E',marginBottom:'40px'}}>{cart.length} item{cart.length!==1?'s':''}</p>
+        {cart.length === 0 ? (
+          <div style={{textAlign:'center',padding:'80px 24px',background:'#fff',borderRadius:'24px'}}>
+            <div style={{fontSize:'64px',marginBottom:'16px'}}>🛒</div>
+            <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'2rem',marginBottom:'12px'}}>YOUR CART IS EMPTY</h3>
+            <p style={{color:'#9E9E9E',marginBottom:'28px'}}>Add some powerful Ayurvedic products to get started.</p>
+            <button className="btn-primary" onClick={() => navigate('Products')}
+              style={{padding:'14px 36px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.9rem'}}>
+              Shop Products
+            </button>
+          </div>
+        ) : (
+          <div style={{display:'grid',gridTemplateColumns:'1fr 320px',gap:'24px'}}>
+            <div style={{display:'flex',flexDirection:'column',gap:'16px'}}>
+              {cart.map(({product,qty}) => (
+                <div key={product.id} style={{background:'#fff',borderRadius:'16px',padding:'20px',display:'flex',gap:'16px',alignItems:'center'}}>
+                  <div style={{width:'80px',height:'80px',borderRadius:'12px',overflow:'hidden',background:'#f8f8f8',flexShrink:0}}>
+                    <ProductImage src={product.image} alt={product.name} style={{width:'100%',height:'100%',display:'block'}} fit="contain" />
+                  </div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:'700',fontSize:'0.95rem',marginBottom:'4px'}}>{product.name}</div>
+                    <div style={{color:'#9E9E9E',fontSize:'0.8rem',marginBottom:'10px'}}>{product.weight}</div>
+                    <div style={{display:'flex',alignItems:'center',gap:'12px',flexWrap:'wrap'}}>
+                      <div style={{display:'flex',alignItems:'center',border:'1px solid #e0e0e0',borderRadius:'8px',overflow:'hidden'}}>
+                        <button onClick={()=>updateQty(product.id,-1)} style={{width:'32px',height:'32px',border:'none',background:'#F8F8F8',cursor:'pointer',fontWeight:'700'}}>−</button>
+                        <span style={{padding:'0 12px',fontWeight:'700'}}>{qty}</span>
+                        <button onClick={()=>updateQty(product.id,1)} style={{width:'32px',height:'32px',border:'none',background:'#F8F8F8',cursor:'pointer',fontWeight:'700'}}>+</button>
+                      </div>
+                      <span style={{fontWeight:'800',fontSize:'1rem'}}>₹{product.price * qty}</span>
+                      <button onClick={()=>removeItem(product.id)} style={{background:'none',border:'none',cursor:'pointer',color:'#f44336',fontWeight:'700',fontSize:'0.8rem',marginLeft:'auto'}}>Remove</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{background:'#fff',borderRadius:'16px',padding:'28px',height:'fit-content',position:'sticky',top:'90px'}}>
+              <h3 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.4rem',letterSpacing:'0.04em',marginBottom:'20px'}}>ORDER SUMMARY</h3>
+              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',fontSize:'0.9rem',color:'#666'}}>
+                <span>Subtotal</span><span>₹{total}</span>
+              </div>
+              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',fontSize:'0.9rem',color:'#666'}}>
+                <span>Shipping</span><span style={{color:'#2e7d32',fontWeight:'700'}}>{total >= 999 ? 'FREE' : '₹99'}</span>
+              </div>
+              {total < 999 && <div style={{background:'#FFF3E0',borderRadius:'8px',padding:'10px 12px',fontSize:'0.8rem',color:'#F57C00',marginBottom:'16px',fontWeight:'600'}}>
+                Add ₹{999-total} more for FREE shipping!
+              </div>}
+              <div style={{borderTop:'1px solid #f0f0f0',paddingTop:'16px',marginBottom:'20px',display:'flex',justifyContent:'space-between',fontWeight:'900',fontSize:'1.1rem'}}>
+                <span>Total</span><span>₹{total + (total >= 999 ? 0 : 99)}</span>
+              </div>
+              <button className="btn-primary pulse-orange" style={{width:'100%',padding:'16px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.9rem',marginBottom:'12px'}}>
+                Proceed to Checkout
+              </button>
+              <button onClick={() => navigate('Products')} style={{width:'100%',padding:'12px',borderRadius:'10px',border:'1px solid #e0e0e0',cursor:'pointer',fontSize:'0.85rem',background:'#fff',color:'#666',fontWeight:'600'}}>
+                Continue Shopping
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ===================== APP ROOT ===================== */
+function App() {
+  const [page, setPage] = useState('Home');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    PRODUCTS.forEach((product) => {
+      validateProductImagePath(product.image, product.name);
+    });
+  }, []);
+
+  const addToCart = (product, qty=1) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.product.id === product.id);
+      if(existing) return prev.map(i => i.product.id===product.id ? {...i,qty:i.qty+qty} : i);
+      return [...prev, {product, qty}];
+    });
+  };
+
+  const cartCount = cart.reduce((s,i) => s+i.qty, 0);
+
+  return (
+    <div>
+      <Navbar page={page} setPage={setPage} cartCount={cartCount} />
+      {page === 'Home' && <HomePage setPage={setPage} setSelectedProduct={setSelectedProduct} />}
+      {page === 'Products' && <ProductsPage setPage={setPage} setSelectedProduct={setSelectedProduct} />}
+      {page === 'ProductDetail' && <ProductDetailPage product={selectedProduct} setPage={setPage} addToCart={addToCart} />}
+      {page === 'Services' && <ServicesPage setPage={setPage} />}
+      {page === 'About' && <AboutPage setPage={setPage} />}
+      {page === 'Contact' && <ContactPage />}
+      {page === 'Cart' && <CartPage cart={cart} setCart={setCart} setPage={setPage} />}
+      <Footer setPage={setPage} />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>

@@ -1638,6 +1638,13 @@ function App() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     PRODUCTS.forEach((product) => {
       validateProductImagePath(product.image, product.name);
     });

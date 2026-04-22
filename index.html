@@ -349,22 +349,22 @@ const { motion, AnimatePresence } = window.Motion || window.FramerMotion || {};
 
 /* ===================== MOCK DATA ===================== */
 const PRODUCTS = [
-  { id: 1, name: "Moringa Powder", image: "/products/moringa.png", price: 549, originalPrice: 699, category: "Superfood", tag: "Best Seller", weight: "250g", rating: 4.8, reviews: 328,
+  { id: 1, name: "Moringa Powder", image: "./products/moringa.png", price: 549, originalPrice: 699, category: "Superfood", tag: "Best Seller", weight: "250g", rating: 4.8, reviews: 328,
     description: "Rich in antioxidants and essential nutrients. Supports immunity, energy levels, and overall wellness with 100% natural ingredients.",
     benefits: ["Rich in antioxidants", "Supports immunity", "Boosts natural energy", "Daily wellness support", "100% natural ingredients"] },
-  { id: 2, name: "Chocolate Whey Protein", image: "/products/whey.png", price: 1899, originalPrice: 2299, category: "Protein", tag: "Performance", weight: "1kg", rating: 4.9, reviews: 412,
+  { id: 2, name: "Chocolate Whey Protein", image: "./products/whey.png", price: 1899, originalPrice: 2299, category: "Protein", tag: "Performance", weight: "1kg", rating: 4.9, reviews: 412,
     description: "High-quality protein for muscle recovery and growth. Smooth chocolate flavor with fast absorption and zero added chemicals.",
     benefits: ["Supports muscle recovery", "Promotes lean growth", "Fast absorption", "Smooth chocolate flavor", "No added chemicals"] },
-  { id: 3, name: "Creatine Monohydrate", image: "/products/creatine.png", price: 999, originalPrice: 1299, category: "Strength", tag: "Pure", weight: "300g", rating: 4.7, reviews: 265,
+  { id: 3, name: "Creatine Monohydrate", image: "./products/creatine.png", price: 999, originalPrice: 1299, category: "Strength", tag: "Pure", weight: "300g", rating: 4.7, reviews: 265,
     description: "Enhances strength, endurance, and performance. Pure micronized creatine for maximum effectiveness.",
     benefits: ["Improves strength", "Enhances endurance", "Supports performance", "Micronized for absorption", "Pure and effective"] },
-  { id: 4, name: "Ashwagandha Powder", image: "/products/ashwagandha.png", price: 499, originalPrice: 649, category: "Ayurvedic", tag: "Stress Support", weight: "250g", rating: 4.8, reviews: 301,
+  { id: 4, name: "Ashwagandha Powder", image: "./products/ashwagandha.png", price: 499, originalPrice: 649, category: "Ayurvedic", tag: "Stress Support", weight: "250g", rating: 4.8, reviews: 301,
     description: "Reduces stress and boosts stamina naturally. Traditional Ayurvedic herb for mental and physical balance.",
     benefits: ["Helps reduce stress", "Boosts stamina", "Supports focus", "Improves resilience", "Traditional Ayurvedic herb"] },
-  { id: 5, name: "Turmeric Curcumin", image: "/products/turmeric.png", price: 599, originalPrice: 749, category: "Immunity", tag: "Anti-Inflammatory", weight: "250g", rating: 4.7, reviews: 244,
+  { id: 5, name: "Turmeric Curcumin", image: "./products/turmeric.png", price: 599, originalPrice: 749, category: "Immunity", tag: "Anti-Inflammatory", weight: "250g", rating: 4.7, reviews: 244,
     description: "Powerful anti-inflammatory and immunity booster. Made from high-quality natural turmeric extract.",
     benefits: ["Supports joint health", "Powerful antioxidant", "Boosts immunity", "Natural anti-inflammatory", "High-quality extract"] },
-  { id: 6, name: "Plant Protein", image: "/products/plant-protein.png", price: 1699, originalPrice: 2099, category: "Vegan", tag: "Dairy Free", weight: "1kg", rating: 4.6, reviews: 219,
+  { id: 6, name: "Plant Protein", image: "./products/plant-protein.png", price: 1699, originalPrice: 2099, category: "Vegan", tag: "Dairy Free", weight: "1kg", rating: 4.6, reviews: 219,
     description: "Clean, vegan protein source for daily nutrition. Supports digestion and muscle health without dairy.",
     benefits: ["Clean vegan protein", "Easy digestion", "Supports muscle health", "Dairy free", "Ideal for daily nutrition"] },
 ];
@@ -409,9 +409,9 @@ const FALLBACK_PRODUCT_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w
 
 const normalizeProductImagePath = (path) => {
   if (!path) return FALLBACK_PRODUCT_IMAGE;
-  if (path.startsWith('/products/')) return path;
   if (path.startsWith('./products/')) return path;
   if (path.startsWith('../products/')) return path;
+  if (path.startsWith('/products/')) return path;
   if (path.startsWith('products/')) return `./${path}`;
   if (path.startsWith('/public/products/')) return path;
   if (path.startsWith('./public/products/')) return path;
@@ -428,9 +428,9 @@ const getProductImageCandidates = (path) => {
   }
 
   return [
-    `/products/${filename}`,
     `./products/${filename}`,
     `products/${filename}`,
+    `/products/${filename}`,
     `/public/products/${filename}`,
     `./public/products/${filename}`,
   ];
@@ -599,7 +599,7 @@ function Navbar({ page, setPage, cartCount }) {
         <div style={{maxWidth:'1280px', margin:'0 auto', padding:'0 24px', display:'flex', alignItems:'center', justifyContent:'space-between', height:'70px'}}>
           {/* Logo */}
           <button onClick={() => navigate('Home')} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
-            <img src="logo.png" alt="My Pain Zone Logo" className="brand-logo" style={{height:'58px',width:'auto',display:'block'}} />
+            <img src="./logo.png" alt="My Pain Zone Logo" className="brand-logo" style={{height:'58px',width:'auto',display:'block'}} />
           </button>
 
           {/* Desktop Nav */}

@@ -428,6 +428,8 @@ const getProductImageCandidates = (path) => {
   }
 
   return [
+    `/${filename}`,
+    `./${filename}`,
     `/products/${filename}`,
     `./products/${filename}`,
     `products/${filename}`,

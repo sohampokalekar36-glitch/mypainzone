@@ -338,6 +338,22 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+
+      .contact-form-card {
+        padding: 28px !important;
+      }
+
+      .contact-form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1439,7 +1455,7 @@ function ContactPage() {
       </div>
 
       <div style={{maxWidth:'1280px',margin:'0 auto',padding:'80px 24px'}}>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1.4fr',gap:'64px'}}>
+        <div className="contact-grid" style={{display:'grid',gridTemplateColumns:'1fr 1.4fr',gap:'64px'}}>
           {/* Info */}
           <div>
             <h2 className="section-heading" style={{fontSize:'2.2rem',marginBottom:'32px'}}>GET IN TOUCH</h2>
@@ -1479,7 +1495,7 @@ function ContactPage() {
           </div>
 
           {/* Form */}
-          <div style={{background:'#F8F8F8',borderRadius:'24px',padding:'48px'}}>
+          <div className="contact-form-card" style={{background:'#F8F8F8',borderRadius:'24px',padding:'48px'}}>
             {submitted ? (
               <div style={{textAlign:'center',padding:'40px 0'}}>
                 <div style={{fontSize:'64px',marginBottom:'20px'}}>✅</div>
@@ -1497,7 +1513,7 @@ function ContactPage() {
                 <h2 style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.8rem',letterSpacing:'0.04em',marginBottom:'8px'}}>BOOK YOUR FIRST CONSULTATION CALL</h2>
                 <p style={{color:'#9E9E9E',fontSize:'0.88rem',marginBottom:'32px'}}>Fill out the form and we'll call you back within 2 hours.</p>
 
-                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'16px'}}>
+                <div className="contact-form-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'16px'}}>
                   {[{name:'name',placeholder:'Full Name *',type:'text',required:true},{name:'email',placeholder:'Email Address *',type:'email',required:true}].map(f=>(
                     <input key={f.name} name={f.name} type={f.type} placeholder={f.placeholder} required={f.required}
                       value={form[f.name]} onChange={handleChange}
@@ -1505,7 +1521,7 @@ function ContactPage() {
                         fontSize:'0.9rem',background:'#fff',width:'100%',transition:'border 0.2s'}}/>
                   ))}
                 </div>
-                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'16px'}}>
+                <div className="contact-form-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'16px'}}>
                   <input name="phone" type="tel" placeholder="Phone Number" value={form.phone} onChange={handleChange}
                     style={{padding:'14px 16px',borderRadius:'10px',border:'1px solid #e0e0e0',fontSize:'0.9rem',background:'#fff'}}/>
                   <select name="service" value={form.service} onChange={handleChange}

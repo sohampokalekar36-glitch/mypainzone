@@ -353,6 +353,31 @@
         grid-template-columns: 1fr !important;
         gap: 12px !important;
       }
+
+      .about-team-card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+
+      .about-team-image {
+        width: 100% !important;
+        height: 320px !important;
+      }
+
+      .about-team-text {
+        background: #f8f8f8 !important;
+        padding: 18px !important;
+        border-radius: 0px !important;
+      }
+
+      .about-team-name {
+        font-size: 2.2rem !important;
+      }
+
+      .about-team-role {
+        font-size: 0.95rem !important;
+        letter-spacing: 0.12em !important;
+      }
     }
   </style>
 </head>
@@ -1334,6 +1359,7 @@ function AboutPage({ setPage }) {
               role:'Founder & CEO',
               bio:'I’m Tanmay Misale — an engineer, dancer, fitness coach, and entrepreneur — driven by a relentless pursuit of growth, discipline, and excellence. My Pain Zone is more than just a brand; it is a reflection of my journey — where structure meets creativity, and passion aligns with performance. Built on the principles of consistency and resilience, this platform represents a mindset that pushes beyond limits. Every product we create is driven by purpose — designed to support individuals committed to becoming stronger, sharper, and more disciplined in every aspect of life. This is for those who refuse to settle. Those who understand that greatness is never given — it is built, rep by rep, day by day.',
               initials:'TM',
+              image:'./products/WhatsApp%20Image%202026-04-22%20at%2013.59.07.jpeg',
             },
             {
               name:'Anand Misale',
@@ -1342,22 +1368,39 @@ function AboutPage({ setPage }) {
               initials:'AM',
             },
           ].map(person => (
-            <div key={person.name} style={{display:'flex',gap:'28px',alignItems:'stretch',flex:'1',minWidth:'320px'}}>
-              <div style={{
-                width:'140px',height:'168px',borderRadius:'26px',flexShrink:0,
-                background:'linear-gradient(135deg,#FFF3E0,#FFE0B2)',
-                border:'2px dashed #FFA726',
-                display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
-                gap:'4px',cursor:'pointer',
-              }}>
-                <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.7rem',color:'#FFA726',letterSpacing:'0.06em'}}>{person.initials}</div>
-                <div style={{fontSize:'0.65rem',color:'#F57C00',fontWeight:'800',letterSpacing:'0.12em',textTransform:'uppercase'}}>Add Photo</div>
-              </div>
-              <div style={{flex:1,minHeight:'168px',display:'flex',flexDirection:'column',justifyContent:'center'}}>
-                <div style={{fontWeight:'900',fontSize:'1.12rem',color:'#0A0A0A',textTransform:'uppercase',letterSpacing:'0.16em',marginBottom:'6px'}}>
+            <div key={person.name} className="about-team-card" style={{display:'flex',gap:'28px',alignItems:'stretch',flex:'1',minWidth:'320px'}}>
+              {person.image ? (
+                <div className="about-team-image" style={{
+                  width:'240px',height:'320px',flexShrink:0,
+                  borderRadius:'0px',overflow:'hidden',
+                  boxShadow:'0 18px 36px rgba(0,0,0,0.28)'
+                }}>
+                  <img
+                    src={person.image}
+                    alt={`${person.name} portrait`}
+                    style={{
+                      width:'100%',height:'100%',objectFit:'cover',
+                      filter:'contrast(1.1) saturate(1.05)'
+                    }}
+                  />
+                </div>
+              ) : (
+                <div style={{
+                  width:'140px',height:'168px',borderRadius:'26px',flexShrink:0,
+                  background:'linear-gradient(135deg,#FFF3E0,#FFE0B2)',
+                  border:'2px dashed #FFA726',
+                  display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+                  gap:'4px',cursor:'pointer',
+                }}>
+                  <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'1.7rem',color:'#FFA726',letterSpacing:'0.06em'}}>{person.initials}</div>
+                  <div style={{fontSize:'0.65rem',color:'#F57C00',fontWeight:'800',letterSpacing:'0.12em',textTransform:'uppercase'}}>Add Photo</div>
+                </div>
+              )}
+              <div className="about-team-text" style={{flex:1,minHeight:'168px',display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                <div className="about-team-role" style={{fontWeight:'900',fontSize:'1.12rem',color:'#0A0A0A',textTransform:'uppercase',letterSpacing:'0.16em',marginBottom:'6px'}}>
                   {person.role}
                 </div>
-                <div style={{fontFamily:'Bebas Neue,cursive',fontSize:'2.75rem',color:'#FFA726',letterSpacing:'0.06em',lineHeight:'1',marginBottom:'12px'}}>
+                <div className="about-team-name" style={{fontFamily:'Bebas Neue,cursive',fontSize:'2.75rem',color:'#FFA726',letterSpacing:'0.06em',lineHeight:'1',marginBottom:'12px'}}>
                   {person.name}
                 </div>
                 <p style={{color:'#5F5F5F',fontSize:'1rem',lineHeight:'1.8',fontWeight:'600',maxWidth:'460px'}}>

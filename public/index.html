@@ -1265,53 +1265,32 @@ function ServicesPage({ setPage }) {
 
       <div style={{maxWidth:'1280px',margin:'0 auto',padding:'80px 24px'}}>
         {SERVICES.map((s,i) => (
-          <div key={s.id} style={{
-            display:'grid',gridTemplateColumns: i%2===0 ? '1fr 1fr' : '1fr 1fr',
-            gap:'64px',alignItems:'center',marginBottom:'80px',
-            direction: i%2===1 ? 'rtl' : 'ltr'
-          }}>
-            <div style={{
-              background:s.color,borderRadius:'28px',
-              height:'400px',display:'flex',flexDirection:'column',
-              alignItems:'center',justifyContent:'center',gap:'16px',
-              direction:'ltr',position:'relative',overflow:'hidden'
-            }}>
-              <div style={{fontSize:'96px'}}>{s.icon}</div>
-              <div style={{fontFamily:'DM Sans,sans-serif',fontSize:'1.62rem',fontWeight:'900',letterSpacing:'0.03em',color:'#0A0A0A',textTransform:'uppercase',textAlign:'center'}}>{s.title}</div>
-              <div style={{
-                position:'absolute',bottom:'24px',left:'50%',transform:'translateX(-50%)',
-                background:'rgba(255,167,38,0.2)',backdropFilter:'blur(8px)',
-                padding:'8px 20px',borderRadius:'999px',
-                fontWeight:'700',fontSize:'0.85rem',color:'#0A0A0A',whiteSpace:'nowrap'
-              }}>{s.price}</div>
+          <div key={s.id} style={{marginBottom:'64px'}}>
+            <div style={{display:'inline-flex',alignItems:'center',gap:'8px',marginBottom:'16px'}}>
+              <span style={{color:'#FFA726',fontSize:'0.84rem',fontWeight:'800',letterSpacing:'0.2em',textTransform:'uppercase'}}>Service {String(i+1).padStart(2,'0')}</span>
             </div>
-            <div style={{direction:'ltr'}}>
-              <div style={{display:'inline-flex',alignItems:'center',gap:'8px',marginBottom:'20px'}}>
-                <span style={{color:'#FFA726',fontSize:'0.84rem',fontWeight:'800',letterSpacing:'0.2em',textTransform:'uppercase'}}>Service {String(i+1).padStart(2,'0')}</span>
-              </div>
-              <h2 style={{fontFamily:'DM Sans,sans-serif',fontSize:'clamp(1.95rem,4.3vw,3.3rem)',fontWeight:'900',letterSpacing:'0.01em',marginBottom:'16px',lineHeight:'1.08',textTransform:'uppercase'}}>{s.title}</h2>
-              <p style={{color:'#555',lineHeight:'1.9',fontSize:'0.95rem',marginBottom:'28px'}}>{s.description}</p>
-              <div style={{display:'grid',gap:'12px',marginBottom:'36px'}}>
-                {s.features.map((f,j) => (
-                  <div key={j} style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                    <div style={{
-                      width:'28px',height:'28px',borderRadius:'50%',
-                      background:'#FFF3E0',display:'flex',alignItems:'center',justifyContent:'center',
-                      flexShrink:0
-                    }}><CheckIcon /></div>
-                    <span style={{fontSize:'0.92rem',fontWeight:'500',color:'#333'}}>{f}</span>
-                  </div>
-                ))}
-              </div>
-              <div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>
-                <button className="btn-primary" onClick={() => navigate('Contact')}
-                  style={{padding:'14px 32px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.88rem'}}>
-                  Get Started
-                </button>
-                <button className="btn-outline" style={{padding:'14px 28px',borderRadius:'10px',cursor:'pointer',fontSize:'0.88rem',background:'transparent'}}>
-                  Learn More
-                </button>
-              </div>
+            <h2 style={{fontFamily:'DM Sans,sans-serif',fontSize:'clamp(1.95rem,4.3vw,3.3rem)',fontWeight:'900',letterSpacing:'0.01em',marginBottom:'16px',lineHeight:'1.08',textTransform:'uppercase'}}>{s.title}</h2>
+            <p style={{color:'#555',lineHeight:'1.9',fontSize:'0.95rem',marginBottom:'20px'}}>{s.description}</p>
+            <div style={{display:'grid',gap:'12px',marginBottom:'24px'}}>
+              {s.features.map((f,j) => (
+                <div key={j} style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                  <div style={{
+                    width:'28px',height:'28px',borderRadius:'50%',
+                    background:'#FFF3E0',display:'flex',alignItems:'center',justifyContent:'center',
+                    flexShrink:0
+                  }}><CheckIcon /></div>
+                  <span style={{fontSize:'0.92rem',fontWeight:'500',color:'#333'}}>{f}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>
+              <button className="btn-primary" onClick={() => navigate('Contact')}
+                style={{padding:'14px 32px',borderRadius:'10px',border:'none',cursor:'pointer',fontSize:'0.88rem'}}>
+                Get Started
+              </button>
+              <button className="btn-outline" style={{padding:'14px 28px',borderRadius:'10px',cursor:'pointer',fontSize:'0.88rem',background:'transparent'}}>
+                Learn More
+              </button>
             </div>
           </div>
         ))}
@@ -1339,7 +1318,7 @@ function AboutPage({ setPage }) {
     <div className="page-enter" style={{paddingTop:'70px'}}>
       {/* Hero */}
       <div style={{background:'#0A0A0A',padding:'80px 24px',position:'relative',overflow:'hidden'}}>
-        <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(255,167,38,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,167,38,0.04) 1px,transparent 1px)',backgroundSize:'60px 60px'}}></div>
+        
         <div style={{maxWidth:'1280px',margin:'0 auto',position:'relative',zIndex:1}}>
           <h1 className="section-heading" style={{fontSize:'clamp(3.4rem,7.6vw,6.8rem)',color:'#fff',lineHeight:'0.95',marginBottom:'24px',fontWeight:'900'}}>
             OUR <span style={{color:'#FFB63D',fontWeight:'900',textShadow:'0 2px 12px rgba(255,182,61,0.25)'}}>STORY</span>
@@ -1429,7 +1408,7 @@ function AboutPage({ setPage }) {
               Unable to find a solution that married the precision of modern fitness with the wisdom of Ayurveda, he built one. What started as a personal experiment became a methodology, and that methodology became My Pain Zone.
             </p>
             <p style={{color:'#4F4F4F',lineHeight:'1.9',marginBottom:'36px',fontSize:'1.02rem',fontWeight:'600'}}>
-              Today, we've transformed 2000+ lives across India — from elite athletes to everyday warriors. Our products are formulated by Ayurvedic experts, our programs are designed by certified trainers, and every consultation is built around the individual.
+              Today, we've transformed 2000+ lives across India — from elite athletes to everyday warriors. And soon, My Pain Zone will be expanding into a physical gym space — a place where discipline, strength, and Ayurvedic wellness come together under one roof.
             </p>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'20px'}}>
               {[['2000+','Clients'],['5 Years','Experience'],['100%','Natural'],['3','Expert Services']].map(([n,l]) => (
